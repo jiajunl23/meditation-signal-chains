@@ -14,10 +14,19 @@ const source = new Tone.FatOscillator({
 
 const volume = new Tone.Gain(0.8)
 
-source.connect(volume)
+const effect = new Tone.Tremolo({
+  frequency: 5,
+  type: "sine",
+  depth: 0.5,
+  spread: 180
+})
 
-volume.toDestination()
-  
+
+source.connect(volume)
+volume.connect(effect)
+effect.start()
+
+effect.toDestination()
 
 
 const button = nn.create("button")
