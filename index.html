@@ -1,0 +1,47 @@
+<body style="background: white"></body>
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script src="https://unpkg.com/tone"></script>
+<script src="https://algorithmicmusic.online/js/viz-helpers.js"></script>
+<script>
+/* global nn, Tone, viz */
+
+const source = new Tone.FatOscillator({
+  frequency: 440, 
+  type: 'sawtooth',
+  count: 5,
+  spread: 40
+})
+
+const volume = new Tone.Gain(0.8)
+
+source.connect(volume)
+
+volume.toDestination()
+  
+
+
+const button = nn.create("button")
+                .css({
+                  backgroundColor: "pink"
+                })
+                .content("start")
+                .addTo("body")
+                .on("click", () => start_or_stop_playing())
+
+let playing = false
+
+function start_or_stop_playing(){
+  if (playing) {
+    source.stop()
+    button.content("start")
+    playing = false
+  }
+  else {
+    source.start()
+    button.content("stop")
+    playing = true
+  }
+}
+
+  
+</script>
