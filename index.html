@@ -11,15 +11,21 @@ const spec = viz.createSpectrum({ range: [20, 7040] })
 const source = new Tone.PulseOscillator({
   frequency: 200,
   width: 0.5
-}).toDestination();
-
-const lfo = new Tone.LFO({
-  frequency: 2,
-  min: 0,
-  max: 0.1
 })
 
-const volume = new Tone.Gain(0.01)
+const lfo1 = new Tone.LFO({
+  frequency: 2,
+  min: 0,
+  max: 1
+}) 
+  
+const lfo2 = new Tone.LFO({
+  frequency: 2,
+  min: 0,
+  max: 0.05
+})
+
+const volume = new Tone.Gain(0.025)
 
 const effect1 = new Tone.Tremolo({
   frequency: 5,
@@ -33,12 +39,14 @@ const effect2 = new Tone.PingPongDelay()
 source.connect(effect1)
 effect1.connect(effect2)
 effect2.connect(volume)
-lfo.connect(volume.gain)
+lfo1.connect(source.width)
+lfo2.connect(volume.gain)
 
 effect1.start()
 // effect2.start()
 
-lfo.start()
+lfo1.start()
+lfo2.start()
 
 volume.toDestination()
 
@@ -68,9 +76,15 @@ const button = nn.create("button")
                 .addTo("body")
                 .on("click", () => start_or_stop_playing())
 
+nn.create('br').addTo('body')
+
 nn.create("img")
   .set({
-  src: "graph"
+  src: "signal_diagram.jpg"
+})
+  .css({
+  width: nn.width,
+  height: nn.width / 2
 })
   .addTo("body")
 
