@@ -4,6 +4,16 @@
 <script src="https://algorithmicmusic.online/js/viz-helpers.js"></script>
 <script>
 /* global nn, Tone, viz */
+  
+/*
+
+Short Reflection: 
+
+I basically started this week's assignment by trying and listening to the examples on the course website. I really liked the effect of Tremolo so I included it, and also included a PulseOscillator. 
+
+I also liked the PingPongDelay effect so I added that as well, and I used LFO to change the width of the PulseOscillator, and a different LFO to change the volume.
+
+*/
 
 const wave = viz.createWaveform()
 const spec = viz.createSpectrum({ range: [20, 7040] })
@@ -43,7 +53,6 @@ lfo1.connect(source.width)
 lfo2.connect(volume.gain)
 
 effect1.start()
-// effect2.start()
 
 lfo1.start()
 lfo2.start()
@@ -80,7 +89,7 @@ nn.create('br').addTo('body')
 
 nn.create("img")
   .set({
-  src: "signal_diagram.jpg"
+  src: "signal_diagram_final.jpg"
 })
   .css({
   width: nn.width,
