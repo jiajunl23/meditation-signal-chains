@@ -5,37 +5,45 @@
 <script>
 /* global nn, Tone, viz */
 
-const source = new Tone.FatOscillator({
-  frequency: 440, 
-  type: 'sawtooth',
-  count: 5,
-  spread: 40
+const wave = viz.createWaveform()
+const spec = viz.createSpectrum({ range: [20, 7040] })
+
+const source = new Tone.PulseOscillator({
+  frequency: 200,
+  width: 0.5
+}).toDestination();
+
+const lfo = new Tone.LFO({
+  frequency: 2,
+  min: 0,
+  max: 0.1
 })
 
-const volume = new Tone.Gain(0.8)
+const volume = new Tone.Gain(0.01)
 
-const effect = new Tone.Tremolo({
+const effect1 = new Tone.Tremolo({
   frequency: 5,
   type: "sine",
   depth: 0.5,
   spread: 180
 })
 
+const effect2 = new Tone.PingPongDelay()
 
-source.connect(volume)
-volume.connect(effect)
-effect.start()
+source.connect(effect1)
+effect1.connect(effect2)
+effect2.connect(volume)
+lfo.connect(volume.gain)
 
-effect.toDestination()
+effect1.start()
+// effect2.start()
 
+lfo.start()
 
-const button = nn.create("button")
-                .css({
-                  backgroundColor: "pink"
-                })
-                .content("start")
-                .addTo("body")
-                .on("click", () => start_or_stop_playing())
+volume.toDestination()
+
+volume.connect(wave)
+volume.connect(spec)
 
 let playing = false
 
@@ -51,6 +59,20 @@ function start_or_stop_playing(){
     playing = true
   }
 }
+
+const button = nn.create("button")
+                .css({
+                  backgroundColor: "pink"
+                })
+                .content("start")
+                .addTo("body")
+                .on("click", () => start_or_stop_playing())
+
+nn.create("img")
+  .set({
+  src: "graph"
+})
+  .addTo("body")
 
   
 </script>
