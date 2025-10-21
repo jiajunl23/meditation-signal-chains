@@ -13,6 +13,8 @@ I basically started this week's assignment by trying and listening to the exampl
 
 I also liked the PingPongDelay effect so I added that as well, and I used LFO to change the width of the PulseOscillator, and a different LFO to change the volume.
 
+To make the signal more interesting, I further added a bar to allow changing the frequency of the oscillator, and the sound is interesting when changing the frequency.
+
 */
 
 const wave = viz.createWaveform()
@@ -85,7 +87,23 @@ const button = nn.create("button")
                 .addTo("body")
                 .on("click", () => start_or_stop_playing())
 
-nn.create('br').addTo('body')
+nn.create("br").addTo("body")
+
+function adjust_freq(){
+  source.set({frequency: this.value})
+  console.log(this.value)
+}
+
+nn.create("input")
+  .set({
+  type: "range",
+  value: 200,
+  min: 0,
+  max: 660,
+  step: 10
+})
+  .addTo("body")
+  .on("input", adjust_freq)
 
 nn.create("img")
   .set({
@@ -96,6 +114,7 @@ nn.create("img")
   height: nn.width / 2
 })
   .addTo("body")
+
 
   
 </script>
